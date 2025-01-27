@@ -1,0 +1,19 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Lint Helm Charts
+        run: helm lint helm-chart/
+
+      - name: Validate Kubernetes Manifests
+        run: kubectl apply --dry-run=client -f manifests/
